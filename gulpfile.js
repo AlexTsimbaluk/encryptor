@@ -18,12 +18,6 @@ gulp.task('browser-sync', function() {
 		},
 		port: 	9999,
 		notify: false,
-
-		/*ghostMode: {
-		    clicks: true,
-		    forms: true,
-		    scroll: false
-		},*/
 		ghostMode: false
 	});
 });
@@ -36,10 +30,6 @@ gulp.task('less', function() {
 				['last 15 versions', '> 1%', 'ie 8', 'ie 7'],
 				{ cascade: true })
 			)
-			// TODO - починить минификацию
-			/*.pipe(gulp.dest('src/css/'))
-			.pipe(concat('main.min.css'))
-	        .pipe(cssnano())*/
 			.pipe(gulp.dest('src/css/'))
 			.pipe(browserSync.reload({stream: true}));
 });
@@ -68,30 +58,10 @@ gulp.task('_bootstrap-material', function() {
 			.pipe(browserSync.reload({stream: true}));
 });
 
-/*gulp.task('js', function() {
-	'use strict';
-	return gulp.src('src/js/*.js')
-			.pipe(babel())
-			.pipe(concat('app.js'))
-			.pipe(gulp.dest('src/js'))
-			.pipe(rename('app.min.js'))
-			.pipe(uglify())
-			.pipe(browserSync.reload({stream: true}))
-			.pipe(gulp.dest('src/js'));
-});*/
-
 gulp.task('js', function() {
 	'use strict';
 	return gulp.src([
-			// 'src/js/*.js', '!src/js/app.min.js'
-				'src/js/player.js',
-				'src/js/user.js',
-				'src/js/visits.js',
-				'src/js/admin.js',
-				'src/js/fractals.js',
-				'src/js/fractals-advanced.js',
-				'src/js/canvas.js'
-
+				'src/js/encryptor.js'
 			])
 			.pipe(babel())
 			.pipe(concat('app.js'))
@@ -107,21 +77,13 @@ gulp.task('js-min', function() {
 			.pipe(gulp.dest('src/js'));
 });
 
-
-// gulp.task('watch', ['browser-sync', 'less'], function() {
 gulp.task('watch', ['browser-sync'], function() {
 	'use strict';
 	gulp.watch('src/*.html', browserSync.reload);
 
     gulp.watch(
     	[
-    		'src/js/player.js',
-    		'src/js/user.js',
-    		'src/js/visits.js',
-    		'src/js/admin.js',
-    		'src/js/fractals.js',
-    		'src/js/fractals-advanced.js',
-    		'src/js/canvas.js'
+    		'src/js/encryptor.js'
     	],
     	// ['js', 'js-min']
     	['js']
