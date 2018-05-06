@@ -1,0 +1,36 @@
+@media only screen and (max-width : 700px) {
+	.visualisation:before {
+		animation: none !important;	
+	}
+}
+
+@media only screen and (max-height : 640px) and (orientation: portrait) {
+	#player {
+		
+	}
+
+
+	@keyframes searchContainerFadeIn {
+		100% {
+			opacity: 1;
+			transform: translateY(220px);
+		}
+	}
+	@keyframes searchContainerFadeOut {
+		0% {
+			opacity: 1;
+			transform: translateY(220px);
+		}
+		100% {
+			opacity: 0;
+			transform: translateY(0%);
+		}
+	}
+	.searchContainer {
+		background-color: transparent;
+
+		border: 0;
+		padding: 0;
+		width: 292px;
+	}
+}
