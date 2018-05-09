@@ -83,18 +83,47 @@
 
 <body>
 
-	<div class="debug"></div>
+	
 
     <div class="flex left fill">
-            <div class="size-0 size-sm-3 size-md-4"></div>
+        <div class="size-0 size-sm-3 size-md-4"></div>
 
-            <div class="size-24 size-sm-18 size-md-16 encryptor flex left">
-                <div class="size-4 show-symbols-panel overflow-y"></div>
+        <div class="size-24 size-sm-18 size-md-16 encryptor flex left">
+            <div class="size-4 show-symbols-panel overflow-y"></div>
 
-                <div class="size-20 grow-1 encrypted-symbols-panel overflow-y"></div>
+            <div class="size-20 grow-1 encrypted-symbols-panel flex top">
+                <h3 class="result-title"></h3>
+
+                <div class="size-12 grow-1 flex left encrypted-symbols"></div>
             </div>
+        </div>
 
-            <div class="size-0 size-sm-3 size-md-4"></div>
+        <div class="size-0 size-sm-3 size-md-4"></div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="symbols flex top h-fill hidden">
+        <div class="shrink-1">
+            <input type="text" class="before-decode form-control">
+        </div>
+
+        <div class="grow-1 size-12">
+            <div class="after-decode mCustomScrollbar h-fill"></div>
+
+            <button class="clearSymbols">
+                <div class="icon">not_interested</div>
+            </button>
+        </div>
     </div>
     
 <!--[if lt IE 9]>

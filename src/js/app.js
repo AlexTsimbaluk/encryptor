@@ -70,74 +70,7 @@ $(document).ready(function () {
 
 	$.material.init();
 
-	// Первоначальное случайное фоновое изображение для body
-	/*$('body').css({'background':'url("../img/bg/bg' +
- 				getRandomInt(1, 10) 			+
- 				'.jpg") no-repeat center / cover'
- 				// '.jpg") no-repeat center / auto 100%'
- 				})
- ;*/
-
-	/*Slider for background*/
-	/*$(function() {
- 	var imageArr = new Array(10);
- 	for (var i = 0; i < imageArr.length; i++) {
- 		var path = '/img/bg/bg' + (i + 1) + '.jpg';
- 		// console.log(path);
- 		imageArr[i] = path;
- 	}
- 	// imageArr.sort(compareRandom);
- 	// console.log(imageArr);
- 		$.mbBgndGallery.buildGallery({
- 		containment:"body",
- 		timer:3000,
- 		effTimer:11000,
- 		shuffle:true,
- 		effect:"fade",
-            // folderPath:"/img/bg/",
-            images: imageArr,
-             onChange:function(idx) {
-            	// var effects = ['fade', 'zoom', 'slideUp', 'slideDown', 'slideRight', 'slideLeft'];
-            	// var index = getRandomInt(0, effects.length);
-            	// $.mbBgndGallery.changeEffect(effects[index]);
-            }
-        });
- });*/
-
-	// mCustomScrollbar
-	// Анимация кнопки "закрыть" при скроле блока с результатами поиска
-	$('.overflow-y').mCustomScrollbar();
-
 	// преобразовать принятую строку в такую же но как будто на другом языке
-	function decodeText(text) {
-		var symbolArray = (text + '').split('');
-		var codeArray = getSymbolCode(text);
-		var decodeArray = [];
-		var newText = '';
-
-		for (var i = 0; i < codeArray.length; i++) {
-			if (codeArray[i] >= 65 && codeArray[i] <= 90 || // A -Z
-			codeArray[i] >= 97 && codeArray[i] <= 122) {
-				// a - z
-				var newCode = decodeCode(codeArray[i]);
-				var newSymbol = newCode[getRandomInt(0, newCode.length - 1)];
-				decodeArray.push(newSymbol);
-				// console.log(symbolArray[i] + ' - ' + newCode);
-				if ($('.after-decode').length) {
-					$('.after-decode .mCSB_container').append('<div class="translated-text">' + symbolArray[i] + ' - ' + newCode + '</div>');
-				}
-			} else {
-				decodeArray.push(symbolArray[i]);
-			}
-		}
-
-		// todo: добавить вывод итогового результата для $(.before-decode).val()
-		// в какой нибудь блок (тоже добавить в $(.devel .symbols))
-
-		newText = decodeArray.join('');
-		return newText;
-	}
-
 	function getSymbolCode(text) {
 		var codeArray = (text + '').split('');
 
@@ -809,6 +742,35 @@ $(document).ready(function () {
 		return variants;
 	}
 
+	function decodeText(text) {
+		var symbolArray = (text + '').split('');
+		var codeArray = getSymbolCode(text);
+		var decodeArray = [];
+		var newText = '';
+
+		for (var i = 0; i < codeArray.length; i++) {
+			if (codeArray[i] >= 65 && codeArray[i] <= 90 || // A -Z
+			codeArray[i] >= 97 && codeArray[i] <= 122) {
+				// a - z
+				var newCode = decodeCode(codeArray[i]);
+				var newSymbol = newCode[getRandomInt(0, newCode.length - 1)];
+				decodeArray.push(newSymbol);
+				// console.log(symbolArray[i] + ' - ' + newCode);
+				if ($('.after-decode').length) {
+					$('.after-decode .mCSB_container').append('<div class="translated-text">' + symbolArray[i] + ' - ' + newCode + '</div>');
+				}
+			} else {
+				decodeArray.push(symbolArray[i]);
+			}
+		}
+
+		// todo: добавить вывод итогового результата для $(.before-decode).val()
+		// в какой нибудь блок (тоже добавить в $(.devel .symbols))
+
+		newText = decodeArray.join('');
+		return newText;
+	}
+
 	function translateCollection($collection, needTranslate) {
 		if (needTranslate) {
 			$collection.each(function (index, el) {
@@ -917,53 +879,6 @@ $(document).ready(function () {
 		$('body').attr('data-useragent', navigator.userAgent);
 	}
 
-	// Остановка визуализации
-	function visualisationStop() {
-		console.log('visualisationStop::Begin');
-		clearInterval(intervalVis);
-		var el = $('.playlistContainer [data-station-id="' + getCurrentTrack().id + '"]');
-		el.removeClass('visualisation').css({ 'backgroundImage': 'none' }).removeAttr('style').find('.url').removeClass('runningString');
-		$('#player .play').removeClass('visualisation').css({ 'boxShadow': 'none', 'borderColor': '#0ff' }).removeAttr('style');
-		// $('#player .play span').remove();
-		console.log('visualisationStop::End');
-	}
-
-	function drawWolumeBar() {
-		// var volumeAnimation 	= requestAnimationFrame(drawWolumeBar());
-		// q - какую часть volume-bar от 100% отрисовать, от 1 до 10, шаг - 10%
-		var q = Math.ceil(+$('#player .volume input').val() / 10);
-
-		ctxVolume.clearRect(0, 0, canvasVolumeWidth, canvasVolumeHeight);
-		var maxHue = 360 / 10 * q,
-		    startHue = 0,
-		    barWidth = 3,
-		    gutterWidth = 1,
-		    maxBar = Math.floor(canvasVolumeWidth / (gutterWidth + barWidth)),
-		    targetCountBar = Math.floor(maxBar / 10 * q),
-		    barMaxHeight = canvasVolumeHeight,
-		    barStepHeight = barMaxHeight / maxBar;
-		// console.log(maxBar);
-
-		for (var i = 0; i < targetCountBar; i++) {
-			ctxVolume.fillStyle = 'hsl(' + i * maxHue / targetCountBar + ', 100%, 50%)';
-			ctxVolume.fillRect(i * (gutterWidth + barWidth), canvasVolumeHeight - i * barStepHeight - barStepHeight, barWidth, i * barStepHeight + barStepHeight);
-
-			ctxVolume.fill();
-		}
-		/*ctxVolume.fillRect(10 * (gutterWidth + barWidth), canvasVolumeHeight - 10 * barStepHeight - barStepHeight, barWidth, 10 * barStepHeight + barStepHeight);
-  ctxVolume.fill();*/
-
-		startHue += 15 % 360;
-		// console.log(startHue);
-	}
-
-	function animateCloseButton(el) {
-		// el.mcs - объект с данными об элементе, который возвращает mCustomScrollbar
-		setTimeout(function () {
-			$('.searchContainer .close').animate({ top: -(el.mcs.top + 10) + 'px' }, 150);
-		}, 50);
-	}
-
 	/*console.log('translate text:begin');
  translateText(translateTarget(), true);
  console.log('translate text:end');*/
@@ -991,23 +906,63 @@ $(document).ready(function () {
 	});
 
 	$('.translate-text').on('click', function () {
-		/*translateText(
-  	$('.title, .url, .playlist .vmTitle, .adminItem .button:not(.showConsole):not(.data-toggle), .remove a, form button'), false
-  );*/
 		translateText(translateTarget(), false);
 		console.log(playerState.translated);
 	});
 
+	// $('.overflow-y').mCustomScrollbar();
+	// $('.encrypted-symbols').mCustomScrollbar();
+
 	var LIMIT = 65536;
+	var IN_BLOCK = 100;
 
-	for (var i = 0, length = Math.ceil(LIMIT / 1000); i < length; i++) {
-		var from = i * 1000,
-		    to = (i + 1) * 1000;
+	for (var i = 0, length = Math.ceil(LIMIT / IN_BLOCK); i < length; i++) {
+		var from = i * IN_BLOCK,
+		    to = (i + 1) * IN_BLOCK;
 
-		if (i == Math.ceil(LIMIT / 1000) - 1) {
-			to = (Math.ceil(LIMIT / 1000) - 1).toString() + LIMIT % 100;
+		if (i == Math.ceil(LIMIT / IN_BLOCK) - 1) {
+			to = (Math.ceil(LIMIT / IN_BLOCK) - 1).toString() + LIMIT % 100;
 		}
 
-		$('.show-symbols-panel .mCSB_container').append('<div class="symbolsBlockToggle" data-show="closed" data-block-number="' + i + '"><button class="show-button">' + from + '..' + to + '</button></div>');
+		$('.show-symbols-panel').append('<div class="symbolsBlockToggle" data-from="' + i * IN_BLOCK + '"data-to="' + (i + 1) * IN_BLOCK + '" data-show="closed" data-block-number="' + i + '"><button class="show-button">' + from + '..' + to + '</button></div>');
 	}
+
+	$('.show-symbols-panel').mCustomScrollbar();
+
+	$('.symbolsBlockToggle').on('click', function (e) {
+		var $el = $(this),
+		    markup = '',
+		    index = $(this).attr('data-block-number'),
+
+		// $target = $('.encrypted-symbols').find('.mCSB_container')
+		$target = $('.encrypted-symbols');
+
+		if ($el.attr('data-show') == 'closed') {
+			var from = $el.attr('data-from');
+			var to = $el.attr('data-to');
+
+			markup += '<div class="symbolsBlockList" data-symbols-number=' + index + '>';
+			markup += '<div class="result-title text-center"><strong>' + from + '</strong> - <strong>' + to + '</strong></div>';
+
+			for (var i = from; i < to + 1; i++) {
+				markup += '<div class="symbol-pair w-fill flex left" data-symbol-id="' + i + '"><div class="code size-12">' + i + '</div><div class="symbol size-12 text-right">' + String.fromCharCode(i) + '</div></div>';
+			}
+			markup += '</div>';
+
+			$target.append(markup);
+			$(this).attr('data-show', 'open');
+			// console.log('Symbols from ' + from + 'to ' + to + ' is displayed');
+		} else {
+			$(this).attr('data-show', 'closed');
+			$('[data-symbols-number=' + index + ']').remove();
+			// $('.result-title').remove();
+
+			console.log('symbolsBlockList №' + index + ' removed');
+			return false;
+		}
+
+		// $target.mCustomScrollbar();
+		$('[data-symbols-number="' + index + '"]').mCustomScrollbar();
+		return false;
+	});
 });

@@ -2581,3 +2581,9 @@ ol {
   padding: 2px 0;
   width: 100%;
 }
+.symbolsBlockList {
+  width: 100px;
+}
+.symbol-pair {
+  padding: 2px 4px;
+}
