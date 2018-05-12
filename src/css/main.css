@@ -2577,6 +2577,9 @@ ol {
 .encryptor .symbolsBlockToggle {
   padding: 3px;
 }
+.encryptor [data-show="closed"] {
+  color: #999;
+}
 .encryptor .show-button {
   padding: 2px 0;
   width: 100%;
@@ -2586,4 +2589,11 @@ ol {
 }
 .symbol-pair {
   padding: 2px 4px;
+}
+.symbol-pair .code {
+  color: #333;
+  font-size: 1.2em;
+}
+.symbol-pair .symbol {
+  font-size: 1.4em;
 }

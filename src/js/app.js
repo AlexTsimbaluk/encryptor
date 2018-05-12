@@ -918,13 +918,13 @@ $(document).ready(function () {
 
 	for (var i = 0, length = Math.ceil(LIMIT / IN_BLOCK); i < length; i++) {
 		var from = i * IN_BLOCK,
-		    to = (i + 1) * IN_BLOCK;
+		    to = (i + 1) * IN_BLOCK - 1;
 
 		if (i == Math.ceil(LIMIT / IN_BLOCK) - 1) {
 			to = (Math.ceil(LIMIT / IN_BLOCK) - 1).toString() + LIMIT % 100;
 		}
 
-		$('.show-symbols-panel').append('<div class="symbolsBlockToggle" data-from="' + i * IN_BLOCK + '"data-to="' + (i + 1) * IN_BLOCK + '" data-show="closed" data-block-number="' + i + '"><button class="show-button">' + from + '..' + to + '</button></div>');
+		$('.show-symbols-panel').append('<div class="symbolsBlockToggle" data-from="' + from + '"data-to="' + to + '" data-show="closed" data-block-number="' + i + '"><button class="show-button">' + from + '..' + to + '</button></div>');
 	}
 
 	$('.show-symbols-panel').mCustomScrollbar();
@@ -933,21 +933,22 @@ $(document).ready(function () {
 		var $el = $(this),
 		    markup = '',
 		    index = $(this).attr('data-block-number'),
+		    $target = $('.encrypted-symbols-panel');
 
-		// $target = $('.encrypted-symbols').find('.mCSB_container')
-		$target = $('.encrypted-symbols');
+		console.log($el);
 
 		if ($el.attr('data-show') == 'closed') {
 			var from = $el.attr('data-from');
 			var to = $el.attr('data-to');
 
-			markup += '<div class="symbolsBlockList" data-symbols-number=' + index + '>';
+			markup += '<div class="symbolsBlockList fill flex top " data-symbols-number=' + index + '>';
 			markup += '<div class="result-title text-center"><strong>' + from + '</strong> - <strong>' + to + '</strong></div>';
+			markup += '<div class="grow-1 size-12 symbol-wrapper">';
 
-			for (var i = from; i < to + 1; i++) {
+			for (var i = from; i <= to; i++) {
 				markup += '<div class="symbol-pair w-fill flex left" data-symbol-id="' + i + '"><div class="code size-12">' + i + '</div><div class="symbol size-12 text-right">' + String.fromCharCode(i) + '</div></div>';
 			}
-			markup += '</div>';
+			markup += '</div></div>';
 
 			$target.append(markup);
 			$(this).attr('data-show', 'open');
@@ -955,14 +956,13 @@ $(document).ready(function () {
 		} else {
 			$(this).attr('data-show', 'closed');
 			$('[data-symbols-number=' + index + ']').remove();
-			// $('.result-title').remove();
 
 			console.log('symbolsBlockList №' + index + ' removed');
 			return false;
 		}
 
 		// $target.mCustomScrollbar();
-		$('[data-symbols-number="' + index + '"]').mCustomScrollbar();
+		$('[data-symbols-number="' + index + '"]').find('.symbol-wrapper').mCustomScrollbar();
 		return false;
 	});
 });
