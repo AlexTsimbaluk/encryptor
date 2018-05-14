@@ -2585,7 +2585,13 @@ ol {
   width: 100%;
 }
 .symbolsBlockList {
-  width: 100px;
+  margin: 0 4px;
+}
+.symbolsBlockList .result-title {
+  padding: 4px 0 6px;
+}
+.symbolsBlockList .result-title .icon {
+  font-size: 18px;
 }
 .symbol-pair {
   padding: 2px 4px;

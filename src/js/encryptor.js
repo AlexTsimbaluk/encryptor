@@ -888,7 +888,8 @@ $(document).ready(function() {
 	// $('.overflow-y').mCustomScrollbar();
 	// $('.encrypted-symbols').mCustomScrollbar();
 
-	var LIMIT = 65536;
+	// var LIMIT = 65536;
+	var LIMIT = 106500;
 	var IN_BLOCK = 100;
 
 	for (var i = 0, length = Math.ceil(LIMIT / IN_BLOCK); i < length; i++) {
@@ -917,7 +918,7 @@ $(document).ready(function() {
 	$('.symbolsBlockToggle').on('click', function(e) {
 		var $el = $(this),
 			markup 	= '',
-			index 	= $(this).attr('data-block-number'),
+			index 	= $el.attr('data-block-number'),
 			$target = $('.encrypted-symbols-panel')
 		;
 
@@ -928,8 +929,19 @@ $(document).ready(function() {
 			var from = $el.attr('data-from');
 			var to = $el.attr('data-to');
 
-			markup += '<div class="symbolsBlockList fill flex top " data-symbols-number=' + index + '>';
-			markup += '<div class="result-title text-center"><strong>' + from + '</strong> - <strong>' + to + '</strong></div>';
+			markup += '<div class="symbolsBlockList flex top" data-symbols-number='
+				+ index
+				+ '>';
+			markup += '<div class="result-title flex left">';
+			markup += '<div class="shrink-0 close-symbols"><div class="icon">clear</div></div>';
+			markup += '<div class="grow-1 text-center"><strong>'
+				+ from
+				+ '</strong> - <strong>'
+				+ to
+				+ '</strong></div>';
+			markup += '<div class="shrink-0 favourite-symbols"><div class="icon">star_outline</div>';
+			markup += '</div></div>';
+
 			markup += '<div class="grow-1 size-12 symbol-wrapper">';
 
 			for(var i = from; i <= to; i++) {
@@ -953,6 +965,17 @@ $(document).ready(function() {
 			console.log('symbolsBlockList №' + index + ' removed');
 			return false;
 		}
+		
+		$('.close-symbols').on('click', function(e) {
+			var $list = $(this).closest('.symbolsBlockList');
+			console.log($list);
+
+			$list.remove();
+			$('.symbolsBlockToggle[data-block-number="'
+				+ $list.attr('data-symbols-number')
+				+'"]'
+			).attr('data-show', 'closed');
+		});
 
 		// $target.mCustomScrollbar();
 		$('[data-symbols-number="' + index + '"]')
@@ -960,4 +983,5 @@ $(document).ready(function() {
 			.mCustomScrollbar();
 		return false;
 	});
+
 });
