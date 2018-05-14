@@ -2584,6 +2584,9 @@ ol {
   padding: 2px 0;
   width: 100%;
 }
+.encrypted-symbols-panel.flex {
+  height: 90%;
+}
 .symbolsBlockList {
   margin: 0 4px;
 }
