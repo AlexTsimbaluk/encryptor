@@ -929,6 +929,23 @@ $(document).ready(function() {
 			var from = $el.attr('data-from');
 			var to = $el.attr('data-to');
 
+			var templateSymbol 	= $('.template-symbols').html(),
+				symbolArray 	= []
+			;
+
+			for (var i = from; i <= to; i++) {
+				var symbol = String.fromCharCode(i);
+				var $symbol 	= $(templateSymbol);
+
+				$symbol.attr('data-symbol-id', i);
+
+				$symbol.find('.code').text(i);
+				$symbol.find('.symbol').text(symbol);
+
+				symbolArray.push($symbol);
+			}
+
+
 			markup += '<div class="symbolsBlockList flex top" data-symbols-number='
 				+ index
 				+ '>';
@@ -944,7 +961,8 @@ $(document).ready(function() {
 
 			markup += '<div class="grow-1 size-12 symbol-wrapper">';
 
-			for(var i = from; i <= to; i++) {
+			/*for(var i = from; i <= to; i++) {
+				var symbol = String.fromCharCode(i);
 				markup += '<div class="symbol-pair w-fill flex left" data-symbol-id="'
 							+ i 
 							+ '"><div class="code size-12">'
@@ -952,10 +970,11 @@ $(document).ready(function() {
 							+ '</div><div class="symbol size-12 text-right">'
 							+ String.fromCharCode(i)
 							+ '</div></div>';
-			}
+			}*/
 			markup += '</div></div>';
 
 			$target.append(markup);
+			$target.find('.symbol-wrapper').append(symbolArray);
 			$(this).attr('data-show', 'open');
 			// console.log('Symbols from ' + from + 'to ' + to + ' is displayed');
 		} else {
